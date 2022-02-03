@@ -4,148 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
     <title>Grid Image Gallery</title>
-
-    <style>
-        * {
-          box-sizing: border-box;
-        }
-    
-        body {
-          padding: 50px;
-          font-family: sans-serif;
-          background: linear-gradient(to right, #F93D66, #6D47D9);
-        }
-    
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-          margin: 0 0 5px 0;
-        }
-    
-        p {
-          margin: 0 0 20px 0;
-        }
-    
-        .close {
-          background: none;
-          color: #fff;
-          background: rgba(0, 0, 0, 0.8);
-          padding: 5px;
-          border: 0;
-          float: right;
-          cursor: pointer;
-        }
-    
-        .gallery {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, 100px);
-          grid-auto-rows: 100px;
-          /* grid-auto-rows: 100px; */
-          grid-auto-flow: dense;
-          gap: 10px;
-        }
-    
-        .item {
-          overflow: hidden;
-          display: grid;
-          /* grid-template-columns: 1; */
-          /* grid-template-rows: 1; */
-        }
-    
-        .item.v2 {
-          grid-row: span 2;
-        }
-        
-        .item.v3 {
-          grid-row: span 3;
-        }
-    
-        .item.v4 {
-          grid-row: span 4;
-        }
-    
-        .item.h2 {
-          grid-column: span 2;
-        }
-    
-        .item.h3 {
-          grid-column: span 3;
-        }
-    
-        .item.h4 {
-          grid-column: span 4;
-        }
-    
-        .item > img {
-          grid-column: 1/-1;
-          grid-row: 1/-1;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-    
-        .item__overlay {
-          background: #ffc60032;
-          grid-column: 1/-1;
-          grid-row: 1/-1;
-          position: relative;
-          display: grid;
-          place-items: center stretch;
-          transform:translateY(100%);
-          transition: 0.5s;
-          height: 100%;
-        }
-    
-        .item__overlay > button {
-          color: #fff;
-          background: none;
-          outline: 0;
-          border: 2px solid tomato;
-          text-transform: uppercase;
-          padding: 5px 10px;
-          align-self: flex-start;
-          justify-self: flex-end;
-        }
-    
-        .item:hover .item__overlay {
-          transform: translateY(0);
-        }
-
-        .item__overlay > button:hover {
-            cursor: pointer;
-        }
-    
-        .overlay {
-          position: fixed;
-          background: rgba(0, 0, 0, 0.7);
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          display: none;
-          z-index: 2;
-        }
-    
-        .overlay.open {
-          display: grid;
-          place-items: center center;
-        }
-    
-        .overlay-inner {
-          background: #eee;
-          width: 700px;
-          padding: 20px;
-          height: 100vh;
-        }
-    
-        .overlay img {
-          width: 100%;
-        }
-    </style>
 </head>
 <body>
     <div class="overlay">
@@ -154,63 +14,12 @@
           <img>
         </div>
     </div>
+    <aside>
+        <h2>IMAGE GALLERY</h2>
+    </aside>
     <section class="gallery">
     </section>
     
-    <script>
-        const gallery = document.querySelector('.gallery');
-        const overlay = document.querySelector('.overlay');
-        const overlayImage = overlay.querySelector('img');
-        const overlayClose = overlay.querySelector('.close');
-
-        // Write a function to generate the html layout for the images
-        function generateHTML([h, v]){
-            return `
-                <div class="item h${h} v${v}">
-                    <img src="./images/${randomNumber(12)}.jpg">    
-                    <div class="item__overlay">
-                        <button>View</button>    
-                    </div>
-                </div>
-            `
-        } 
-
-        // Create a helper function to generate random numbers
-        function randomNumber(limit){
-            return Math.floor(Math.random() * limit) + 1;
-        }
-
-        function popItem(e){
-            // console.log(e.currentTarget)
-            const imageSource = e.currentTarget.querySelector('img').src;
-            overlayImage.src = imageSource;
-
-            const viewImage = e.currentTarget.querySelector('button').addEventListener("click", function(){
-                overlay.classList.add("open");
-            });
-
-            // overlay.classList.add("open");
-        }
-
-        function close(){
-            overlay.classList.remove("open");
-        }
-
-        // Create bunch of images (e.g 50 images) and use arrays to hold the images.. i.e [1, 3], [2, 3] ... First value is how many columns it spans while the second value is how many rows it spans
-        //Let's create an empty array with 50 blank spots and pass it as an object
-        const digits = Array.from({length: 50}, () => [randomNumber(3), randomNumber(3)]).concat([[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]]);
-
-        // Create an HTML variable to take each digit array and map over each one by simply passing it to generateHTML()
-        const html = digits.map(generateHTML).join("")    //join() will convert it to a string
-
-        gallery.innerHTML = html;
-
-        //Add 'CLICK' event listener to each item to pop up a modal
-        const items = document.querySelectorAll('.item');
-
-        items.forEach(item => item.addEventListener("mouseover", popItem))
-
-        overlayClose.addEventListener("click", close);
-    </script>
+    <script src="./script.js"></script>
 </body>
 </html>
